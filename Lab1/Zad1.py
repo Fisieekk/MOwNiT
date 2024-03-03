@@ -21,7 +21,10 @@ def central_diff(x,h,f):
     return (f(x+h)-f(x-h))/(2*h)
 
 def h_value():
-    return 1/10**np.arange(0, 17)
+    h_values=[]
+    for i in range(0,17):
+        h_values.append(1/10**i)
+    return h_values
 
 def h_min_forward():
     return 2*np.sqrt(epsilon)/abs(f_prime_prime(1))
