@@ -3,9 +3,6 @@ import sympy as sp
 import matplotlib.pyplot as plt
 import sys
 epsilon=np.finfo(float).eps
-
-
-
 def f(x):
     return np.tan(x)
 def f_prime(x):
@@ -51,19 +48,17 @@ def main(f):
     num_diff_error2, rou_diff_error2, tru_diff_error2 ,h_min2= errors(f, abs(f_prime_prime_prime(1)), central_diff)
     plt.figure(figsize=(16, 6))
     plt.subplot(1, 2, 1)
-    plt.plot(h_values, num_diff_error, label='Approximation Error', marker='o')
-    plt.plot(h_values, rou_diff_error, label='Rounding Erorr', marker='o')
-    plt.plot(h_values, tru_diff_error, label='Truncation Error', marker='o')
-    plt.yscale('log')
+    plt.loglog(h_values, num_diff_error, label='Approximation Error', marker='o')
+    plt.loglog(h_values, rou_diff_error, label='Rounding Erorr', marker='o')
+    plt.loglog(h_values, tru_diff_error, label='Truncation Error', marker='o')
     plt.xlabel('h')
     plt.ylabel('Absolute Error')
     plt.title('Forward Difference')
     plt.legend()
     plt.subplot(1, 2, 2)
-    plt.plot(h_values, num_diff_error2, label='Approximation Error', marker='o')
-    plt.plot(h_values, rou_diff_error2, label='Rounding Error', marker='o')
-    plt.plot(h_values, tru_diff_error2, label='Truncation Error', marker='o')
-    plt.yscale('log')
+    plt.loglog(h_values, num_diff_error2, label='Approximation Error', marker='o')
+    plt.loglog(h_values, rou_diff_error2, label='Rounding Error', marker='o')
+    plt.loglog(h_values, tru_diff_error2, label='Truncation Error', marker='o')
     plt.xlabel('h')
     plt.ylabel('Absolute Error')
     plt.title('Central Difference')
