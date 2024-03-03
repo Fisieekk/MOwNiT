@@ -1,7 +1,5 @@
 import numpy as np
-import sympy as sp
 import matplotlib.pyplot as plt
-import sys
 epsilon=np.finfo(float).eps
 def f(x):
     return np.tan(x)
@@ -21,7 +19,7 @@ def central_diff(x,h,f):
     return (f(x+h)-f(x-h))/(2*h)
 
 def h_value():
-    return 1/10**np.arange(0, 17)
+    return np.power(10,-np.arange(17),dtype=float)
 
 def h_min_forward():
     return 2*np.sqrt(epsilon)/abs(f_prime_prime(1))
