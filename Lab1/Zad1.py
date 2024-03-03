@@ -1,7 +1,5 @@
 import numpy as np
-import sympy as sp
 import matplotlib.pyplot as plt
-import sys
 epsilon=np.finfo(float).eps
 def f(x):
     return np.tan(x)
