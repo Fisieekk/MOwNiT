@@ -32,12 +32,10 @@ def main():
     x_double=generator(n_double,np.float64)
     x_fractions=generator(n_fraction,Frac)
     x_proper=good_value(n_single)
-    error_single = np.abs((x_single - x_proper) / x_proper)
-    print(error_single)
-    error_double = np.abs((x_double - x_proper[:n_double]) / x_proper[:n_double])
+    error_single = np.abs((x_single - x_proper))# / x_proper)
+    error_double = np.abs((x_double - x_proper[:n_double]))# / x_proper[:n_double])
     print(error_double)
-    error_fractions = [abs(float(x - x_proper[i]) / float(x_proper[i])) for i, x in enumerate(x_fractions)] 
-    print(error_fractions)
+    error_fractions = [abs(float(x - x_proper[i])) for i, x in enumerate(x_fractions)] 
     plt.semilogy(np.arange(1, n_fraction+1),x_fractions, label='Fractions')
     plt.semilogy(np.arange(1, n_single+1),x_single, label='Single Precision')
     plt.semilogy(np.arange(1, n_double+1),x_double , label='Double Precision')
@@ -50,9 +48,9 @@ def main():
     plt.show()
 
     plt.figure(figsize=(10, 6))
-    plt.plot(range(n_single), error_single, label='Single Precision')
-    plt.plot(range(n_double), error_double, label='Double Precision')
-    plt.plot(range(n_fraction), error_fractions, label='Fractions')
+    plt.semilogy(range(n_fraction), error_fractions, label='Fractions')
+    plt.semilogy(range(n_single), error_single, label='Single Precision')
+    plt.semilogy(range(n_double), error_double, label='Double Precision')
     plt.xlabel('k')
     plt.ylabel('Bezwzględny błąd względny')
     plt.title('Bezwzględny błąd względny w zależności od k')

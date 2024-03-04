@@ -1,1 +1,1 @@
-tru_diff_error2
+print
