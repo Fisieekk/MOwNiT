@@ -1,19 +1,37 @@
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config"> MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });</script>
+
 # Marek Małek, Marcin Serafin, 05.03.2024
+
 ## Laboratorium 01
+
 ## Analiza Błędów
+
 ## 1. Treść zadań
+
   ![alt text](img\ex1.png)
 
+<div style="page-break-after: always;"></div>
+
   ![alt text](img\ex2.png)
+
+<div style="page-break-after: always;"></div>
+
 ## 2. Argumentacja rozwiązania zadań, fragmenty algorytmu, kodu ilustrującego rozwiązanie
-Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pandas.
+
+Zadania rozwiązano w języku Python. Użyte biblioteki: **numpy**, **matplotlib**, **pandas**.
+
 ### 2.1 Rozwiązanie zadania 1
- - zdefiniowano stałe: epsilon oraz wartości parametru $h$
+
+- zdefiniowano stałe: epsilon oraz wartości parametru $h$
+
   ```python
   epsilon = np.finfo(float).eps
   h_values = np.power(10, -np.arange(17), dtype=float)
   ```
- - zaimplementowano funkcje pomocnicze
+
+- zaimplementowano funkcje pomocnicze
+
   ```python
   # testowana funkcja
   def f(x):
@@ -31,7 +49,7 @@ Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pand
   def f_prime_prime_prime(x):
     return 2*(1/np.cos(x)**2)**2 + 2*np.tan(x)*(-2*np.tan(x)/np.cos(x)**2)
   
-  # metoda różnic zwykłych
+  # metoda różnic skończonych
   def forward_diff_method(x, h, f):
     return (f(x + h) - f(x)) / h
   
@@ -43,11 +61,15 @@ Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pand
   def forward_h_min():
     return 2*np.sqrt(epsilon/abs(f_prime_prime(1)))
   
-  # wzór nr (3)
+  # wzór nr (4)
   def central_h_min():
     return np.cbrt(3*epsilon/abs(f_prime_prime_prime(1)))
   ```
- - zaimplementowano funkcję zwracającą wartości błędu metody, błędu obliczeniowego oraz błędu numerycznego dla wcześniej zadanych wartości parametru $h$ w zależności od wybranej metody. Funkcja także zwraca minimum z wartości bezwzględnej błędu obliczeniowego
+
+<div style="page-break-after: always;"></div>
+
+- zaimplementowano funkcję zwracającą wartości błędu metody, błędu obliczeniowego oraz błędu numerycznego dla wcześniej zadanych wartości parametru $h$ w zależności od wybranej metody. Funkcja także zwraca minimum z wartości bezwzględnej błędu obliczeniowego
+
   ```python
   def get_errors(f, M, method):
 
@@ -62,12 +84,20 @@ Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pand
         truncation_errors = [(M*h**2)/6 for h in h_values]
 
     return computational_errors, rounding_errors, truncation_errors, h_min
-  ``` 
- - napisano wizualizację rozwiązania dla obu metod
-   - metoda różnic zwykłych
+  ```
+
+- napisano wizualizację rozwiązania dla obu metod
+  - metoda różnic skończonych
+
    ```python
-   forward_computational_error, forward_rounding_error, forward_trucation_error, forward_experimental_h_min = get_errors(
-       f, abs(f_prime_prime(1)), forward_diff_method)
+   forward_computational_error,
+   forward_rounding_error, 
+   forward_trucation_error, 
+   forward_experimental_h_min = get_errors(
+    f,
+    abs(f_prime_prime(1)),
+    forward_diff_method
+   )
    
    plt.figure(figsize=(16, 6))
    plt.loglog(h_values, forward_computational_error,
@@ -82,10 +112,20 @@ Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pand
    plt.legend()
    plt.show()
    ```
-   - metoda różnic zwykłych
+
+    <div style="page-break-after: always;"></div>
+
+  - metoda różnic centralnych
+
    ```python
-   central_computational_error, central_rounding_error, central_trucation_error, central_experimental_h_min = get_errors(
-    f, abs(f_prime_prime(1)), central_diff_method)
+   central_computational_error, 
+   central_rounding_error, 
+   central_trucation_error, 
+   central_experimental_h_min = get_errors(
+    f, 
+    abs(f_prime_prime(1)), 
+    central_diff_method
+   )
 
    plt.figure(figsize=(16, 6))
    plt.loglog(h_values, central_computational_error,
@@ -99,8 +139,10 @@ Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pand
    plt.title('Central Difference Method')
    plt.legend()
    plt.show()
-   ``` 
- - napisano zestawienie wartości $h_{min}$ z minimum wartości błędu obliczeniowego ze względu na metodę
+   ```
+
+- napisano zestawienie wartości $h_{min}$ z minimum wartości błędu obliczeniowego ze względu na metodę
+
   ```python
   df = pd.DataFrame({
     "eperimental values": [forward_experimental_h_min, central_experimental_h_min],
@@ -109,8 +151,11 @@ Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pand
     .style.relabel_index(["forward method", "central method"], axis=0)\
     .format(precision=30)
   ```
+
 ### 2.2 Rozwiązanie zadania 2
- - podobnie jak w przypadku zadania 1 zdefiniowano stałe określające długości ciągu dla poszczególnych precyzji.
+
+- podobnie jak w przypadku zadania 1 zdefiniowano stałe określające długości ciągu dla poszczególnych precyzji.
+
   ```python
   # dla pojedyńczej precyzji
   n_single = 225
@@ -119,7 +164,11 @@ Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pand
   # dla reprezentacji z biblioteki Fractions
   n_fraction = 225
   ```
- - zdefiniowano funkcje pomocnicze
+
+<div style="page-break-after: always;"></div>
+
+- zdefiniowano funkcje pomocnicze
+
   ```python
   # funkcja wyliczająca i-ty wyraz ciągu o zadanej precyzji precision w oparciu o wyrazy ciągu x_k_values
   def x_k(i, x_k_values, precision):
@@ -146,7 +195,9 @@ Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pand
           expected_x_k_values[i] = (4**(-i))/3
       return expected_x_k_values
   ```
- - wykonano obliczenia wartości ciągu dla zadanych precyzji i długości, obliczono wartości bezwględne błędu względnego
+
+- wykonano obliczenia wartości ciągu dla zadanych precyzji i długości, obliczono wartości bezwględne błędu względnego
+
   ```python
   x_single = generate_n_elements(n_single, np.float32)
   x_double = generate_n_elements(n_double, np.float64)
@@ -157,8 +208,12 @@ Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pand
   error_double = np.abs((x_double - x_expected[:n_double])  / x_expected[:n_double])
   error_fractions = np.abs((x_fractions - x_expected) / x_expected)
   ```
- - napisano wizualizację rozwiązania
-   - wykres wartości bezwględnej błędu względnego
+
+<div style="page-break-after: always;"></div>
+
+- napisano wizualizację rozwiązania
+  - wykres wartości bezwględnej błędu względnego
+
     ```python
     plt.semilogy(np.arange(1, n_single+1), x_single, label='Single Precision')
     plt.semilogy(np.arange(1, n_double+1), x_double, label='Double Precision')
@@ -171,7 +226,9 @@ Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pand
     plt.grid(True)
     plt.show()
     ```
-   - wykres rozwiązań równania róznicowego
+
+  - wykres rozwiązań równania róznicowego
+
     ```python
     plt.figure(figsize=(10, 6))
     plt.semilogy(range(n_fraction), error_fractions, label='Fractions')
@@ -183,46 +240,69 @@ Zadania rozwiązano w języku Python. Użyto biblioteki: numpy, matplotlib, pand
     plt.legend()
     plt.show()
     ```
+
+<div style="page-break-after: always;"></div>
+
 ## 3. Wykresy, tabele, wyniki liczbowe
+
 ### 3.1 Zadanie 1
+
 #### 3.1.1
-Wykres przedstawiający wartości błędu metody, błędu numerycznego oraz błędu obliczeniowego w zależności od wartości parametru $h$ dla metody różnic zwykłych.
+
+Wykres przedstawiający wartości błędu metody, błędu numerycznego oraz błędu obliczeniowego w zależności od wartości parametru $h$ dla metody różnic skończonych.
+
 ![alt text](img\forward_diff.png)
+
 #### 3.1.2
+
 Wykres przedstawiający wartości błędu metody, błędu numerycznego oraz błędu obliczeniowego w zależności od wartości parametru $h$ dla metody różnic centralnych.
+
 ![alt text](img\central_diff.png)
+
+<div style="page-break-after: always;"></div>
+
 #### 3.1.3
+
 Zestawienie wartości $h_{min}$ z minimum wartości błędu obliczeniowego ze względu na metodę
-<style type="text/css">
-</style>
-<table id="T_839db">
-  <thead>
-    <tr>
-      <th class="blank level0" >&nbsp;</th>
-      <th id="T_839db_level0_col0" class="col_heading level0 col0" >eperimental values</th>
-      <th id="T_839db_level0_col1" class="col_heading level0 col1" >expected values</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th id="T_839db_level0_row0" class="row_heading level0 row0" >forward method</th>
-      <td id="T_839db_row0_col0" class="data row0 col0" >-3.742447587916421181120085748262</td>
-      <td id="T_839db_row0_col1" class="data row0 col1" >0.000000009123695225180453138686</td>
-    </tr>
-    <tr>
-      <th id="T_839db_level0_row1" class="row_heading level0 row1" >central method</th>
-      <td id="T_839db_row1_col0" class="data row1 col0" >-1.092519931630759444374234590214</td>
-      <td id="T_839db_row1_col1" class="data row1 col1" >0.000004085802692757501501370603</td>
-    </tr>
-  </tbody>
-</table>
+
+|          method |               eperimental values |                  expected values |
+|----------------:|---------------------------------:|---------------------------------:|
+|  forward method | 0.000000025541352588476229357184 | 0.000000009123695225180453138686 |
+|  central method | 0.000000000006223022097628927440 | 0.000004085802692757501501370603 |
 
 ### 3.2 Zadanie 2
+
 #### 3.2.1
+
 Wykres wartości ciągu w zależności od $k$
+
 ![alt text](img\sequence_values.png)
+
+<div style="page-break-after: always;"></div>
+
 #### 3.2.2
+
 Wykres przedstawiający wartość bezwględną błędu względnego w zależności od $k$
 ![alt text](img\relative_error.png)
 
 ## 4. Wnioski
+
+### 4.1 Zadanie 1
+
+Jak można zauważyć na wykresach w punktach 3.1.1 i 3.1.2 wraz ze wzrostem parametru $h$ maleje błąd numeryczny, a rośnie błąd metody. Dla błędu metody różnic skończonych wartość błędu obliczeniowego jest najmniejsza dla $h=10^{-8}$, a dla metody różnic centralnych dla $h=10^{-7}$. Jednak warto zaznaczyć, że metoda różnic centralnych okazała się być obarczona mniejszymi wartościami bezwględnymi błędów niż metoda różnic skończonych. Porównując wartości minimalne błędów obliczeniowych z wartościami wyznaczonymi ze wzoru, można zauważyć, że w przypadku metody różnic skończonych, wartość wyznaczona wzorem była o jeden rząd wielkości mniejsza od wartości minimalnej. W przypadku metody różnic centralnych wartość wyznaczona wzorem była o sześć rzędów większa od wartości minimalnej.
+
+<div style="page-break-after: always;"></div>
+
+### 4.2 Zadanie 2
+
+W Zadaniu drugim, co widać na wykresie w punkcie 3.2.1, najlepszą reprezentacją okazała się $Frac$ z biblioteki **Fractions**, jako że otrzymywane wartości pokrywały się z wartościami oczekiwanymi. W przypadku pojedyńczej precyzji w okolicach wartości rzędu $10^{-7}$ nastąpiło przekroczenie zakresu. W tym wypadku Python zamienia te wartości na bardzo małe, początkowo **-inf**, a następnie na **NaN**, stąd nagły spadek na wykresie. W przypadku podwójnej precyzji w okolicach wartości rzędu $10^{-12}$ zmieniła się monotonicznośc ciągu. Dla tak małych wartości  wystąpił skumulowany błąd zaokrągleń przez co otrzymane wartości nie pokrywały się z oczekiwanymi. Razem z odstającymi wartościami zwiększał się błąd względny reprezentacji pojedyńczej oraz podwójnej precyzji, co widać na wykresie w punkcie 3.2.2.
+
+### 5 Bibliografia
+
+<https://en.wikipedia.org/wiki/IEEE_754>
+
+<https://docs.python.org/3/library/fractions.html>
+
+<https://en.wikipedia.org/wiki/Single-precision_floating-point_format>
+
+<https://pythonnumericalmethods.berkeley.edu/notebooks/chapter09.02-Floating-Point-Numbers.html>
