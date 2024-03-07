@@ -295,7 +295,7 @@ Jak można zauważyć na wykresach w punktach 3.1.1 i 3.1.2 wraz ze wzrostem par
 
 ### 4.2 Zadanie 2
 
-W Zadaniu drugim, co widać na wykresie w punkcie 3.2.1, najlepszą reprezentacją okazała się $Frac$ z biblioteki **Fractions**, jako że otrzymywane wartości pokrywały się z wartościami oczekiwanymi. W przypadku pojedyńczej precyzji w okolicach wartości rzędu $10^{-7}$ nastąpiło przekroczenie zakresu. W tym wypadku Python zamienia te wartości na bardzo małe, początkowo **-inf**, a następnie na **NaN**, stąd nagły spadek na wykresie. W przypadku podwójnej precyzji w okolicach wartości rzędu $10^{-12}$ zmieniła się monotonicznośc ciągu. Dla tak małych wartości  wystąpił skumulowany błąd zaokrągleń przez co otrzymane wartości nie pokrywały się z oczekiwanymi. Razem z odstającymi wartościami zwiększał się błąd względny reprezentacji pojedyńczej oraz podwójnej precyzji, co widać na wykresie w punkcie 3.2.2.
+W Zadaniu drugim, co widać na wykresie w punkcie 3.2.1, najlepszą reprezentacją okazała się **Frac** z biblioteki **Fractions**, jako że otrzymywane wartości pokrywały się z wartościami oczekiwanymi. W przypadku pojedyńczej precyzji w okolicach wartości rzędu $10^{-7}$ nastąpiło przekroczenie zakresu. W tym wypadku Python zamienia te wartości na bardzo małe, początkowo **-inf**, a następnie na **NaN**, stąd nagły spadek na wykresie. W przypadku podwójnej precyzji w okolicach wartości rzędu $10^{-12}$ zmieniła się monotoniczność ciągu. Dla tak małych wartości  wystąpił skumulowany błąd zaokrągleń przez co otrzymane wartości nie pokrywały się z oczekiwanymi. Razem z odstającymi wartościami zwiększał się błąd względny reprezentacji pojedyńczej oraz podwójnej precyzji, co widać na wykresie w punkcie 3.2.2.
 
 ### 5 Bibliografia
 
