@@ -1,0 +1,6 @@
+print("Liniowa")
+print(p_lin)
+print(b_lin)
+print("Kwadratowa")
+print(p_quad)
+print(b_quad)
