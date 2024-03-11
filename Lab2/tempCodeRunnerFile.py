@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -24,3 +25,15 @@ breast_cancer_validate_linear_matrix = np.matrix(breast_cancer_validate)
 
 breast_cancer_train_square_matrix = np.zeros([299,16])
 breast_cancer_validate_square_matrix = np.zeros([299,16])
+=======
+# Wczytanie danych
+train_data = pd.read_csv('cyce.dat', header=None,delimiter='\t ')
+validate_data = pd.read_csv("data\\breast-cancer-validate.dat", header=None)
+
+# Wczytanie nazw kolumn
+column_labels = pd.read_csv("data\\breast-cancer.labels", header=None)
+
+# Ustawienie nazw kolumn
+train_data.columns = column_labels[0]
+validate_data.columns = column_labels[0]
+>>>>>>> Stashed changes

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import numpy as np
 import pandas as pd
 
@@ -65,3 +66,91 @@ print("\nQuadratic Representation:")
 print("False Positives:", false_positives_quadratic)
 print("False Negatives:", false_negatives_quadratic)
     
+=======
+import pandas as pd
+
+import os
+
+# Wczytanie danych
+train_data = pd.read_csv('data\\breast-cancer-train.dat', header=None)
+validate_data = pd.read_csv("data\\breast-cancer-validate.dat", header=None)
+
+# Wczytanie nazw kolumn
+column_labels = pd.read_csv("data\\breast-cancer.labels", header=None)
+print(column_labels)
+# Ustawienie nazw kolumn
+train_data.columns = column_labels[0]
+validate_data.columns = column_labels[0]
+
+import matplotlib.pyplot as plt
+
+# Histogram wybranej kolumny
+# plt.hist(train_data['radius (mean)'], bins=20, color='blue', alpha=0.7)
+# plt.xlabel('Promień (mean)')
+# plt.ylabel('Liczba przypadków')
+# plt.title('Histogram promienia (mean)')
+# plt.show()
+
+# # Wykres wybranej kolumny
+# plt.plot(train_data['perimeter (mean)'], train_data['area (mean)'], 'o', color='green')
+# plt.xlabel('Obwód (mean)')
+# plt.ylabel('Powierzchnia (mean)')
+# plt.title('Wykres obwodu vs powierzchni (mean)')
+# plt.show()
+
+
+import numpy as np
+
+# Liniowa reprezentacja
+A_linear_train = train_data.drop(['patient ID', 'Malignant/Benign'], axis=1).values
+A_linear_validate = validate_data.drop(['patient ID', 'Malignant/Benign'], axis=1).values
+print(A_linear_train)
+print(A_linear_validate)
+# Kwadratowa reprezentacja (dla wybranych cech)
+selected_features = ['radius (mean)', 'perimeter (mean)', 'area (mean)', 'symmetry (mean)']
+A_quad_train = train_data[selected_features].values
+A_quad_train = np.column_stack((A_quad_train, A_quad_train**2))
+A_quad_validate = validate_data[selected_features].values
+A_quad_validate = np.column_stack((A_quad_validate, A_quad_validate**2))
+
+
+# Wektor b
+b_train = np.where(train_data['Malignant/Benign'] == 'M', 1, -1)
+b_validate = np.where(validate_data['Malignant/Benign'] == 'M', 1, -1)
+
+
+# Wagi dla reprezentacji liniowej
+w_linear = np.linalg.solve(np.dot(A_linear_train.T, A_linear_train), np.dot(A_linear_train.T, b_train))
+
+# Wagi dla reprezentacji kwadratowej
+w_quad = np.linalg.solve(np.dot(A_quad_train.T, A_quad_train), np.dot(A_quad_train.T, b_train))
+
+
+# Współczynnik uwarunkowania macierzy dla reprezentacji liniowej
+cond_linear = np.linalg.cond(np.dot(A_linear_train.T, A_linear_train))
+
+# Współczynnik uwarunkowania macierzy dla reprezentacji kwadratowej
+cond_quad = np.linalg.cond(np.dot(A_quad_train.T, A_quad_train))
+
+
+# Predykcja dla reprezentacji liniowej
+p_linear = np.dot(A_linear_validate, w_linear)
+
+# Predykcja dla reprezentacji kwadratowej
+p_quad = np.dot(A_quad_validate, w_quad)
+
+# Porównanie predykcji z wektorem b
+fp_linear = np.sum(np.where(p_linear > 0, 1, 0) != np.where(b_validate > 0, 1, 0))
+fn_linear = np.sum(np.where(p_linear <= 0, 1, 0) != np.where(b_validate <= 0, 1, 0))
+
+fp_quad = np.sum(np.where(p_quad > 0, 1, 0) != np.where(b_validate > 0, 1, 0))
+fn_quad = np.sum(np.where(p_quad <= 0, 1, 0) != np.where(b_validate <= 0, 1, 0))
+
+print("Liniowa reprezentacja:")
+print("Liczba fałszywie dodatnich:", fp_linear)
+print("Liczba fałszywie ujemnych:", fn_linear)
+
+print("\nKwadratowa reprezentacja:")
+print("Liczba fałszywie dodatnich:", fp_quad)
+print("Liczba fałszywie ujemnych:", fn_quad)
+>>>>>>> Stashed changes
