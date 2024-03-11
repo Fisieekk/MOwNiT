@@ -53,13 +53,16 @@ w_quad = np.linalg.solve(A_quad_train.T @ A_quad_train, A_quad_train.T @ b_train
 # # (f) Oblicz współczynniki uwarunkowania
 cond_lin = (np.linalg.cond(A_lin_train))**2
 cond_quad = (np.linalg.cond(A_quad_train))**2
+print(cond_lin)
+print(cond_quad)
+
 # (g) Sprawdź jak dobrze otrzymane wagi przewidują typ nowotworu
 # Liniowa
-p_lin = A_lin_train @ w_lin
+p_lin = A_lin_validate @ w_lin
 p_lin = np.where(p_lin > 0, 1, -1)
 
 # Kwadratowa
-p_quad = A_quad_train @ w_quad
+p_quad = A_quad_validate @ w_quad
 p_quad = np.where(p_quad > 0, 1, -1)
 
 # # Porównaj wektory p
@@ -72,12 +75,12 @@ p_quad = np.where(p_quad > 0, 1, -1)
 
 # # Oblicz liczbę fałszywie dodatnich oraz fałszywie ujemnych przypadków
 # # Liniowa
-false_positives_lin = np.sum(np.logical_and(p_lin > 0, b_train < 0))
-false_negatives_lin = np.sum(np.logical_and(p_lin < 0, b_train > 0))
+false_positives_lin = np.sum(np.logical_and(p_lin > 0, b_validate < 0))
+false_negatives_lin = np.sum(np.logical_and(p_lin < 0, b_validate > 0))
 
 # Kwadratowa
-false_positives_quad = np.sum(np.logical_and(p_quad > 0, b_train < 0))
-false_negatives_quad = np.sum(np.logical_and(p_quad < 0, b_train > 0))
+false_positives_quad = np.sum(np.logical_and(p_quad > 0, b_validate < 0))
+false_negatives_quad = np.sum(np.logical_and(p_quad < 0, b_validate > 0))
 
 print("Liniowa")
 print("False positives:", false_positives_lin)
