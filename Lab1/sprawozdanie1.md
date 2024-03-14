@@ -267,8 +267,8 @@ Zestawienie wartości $h_{min}$ z minimum wartości błędu obliczeniowego ze wz
 
 |          method |               eperimental values |                  expected values |
 |----------------:|---------------------------------:|---------------------------------:|
-|  forward method | 0.000000025541352588476229357184 | 0.000000009123695225180453138686 |
-|  central method | 0.000000000006223022097628927440 | 0.000004085802692757501501370603 |
+|  forward method | 2.55*10^-8 | 9.12*10^-10 |
+|  central method | 6.22*10-13 | 4.08*10^-6 |
 
 ### 3.2 Zadanie 2
 
