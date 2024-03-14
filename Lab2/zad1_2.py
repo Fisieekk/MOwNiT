@@ -48,6 +48,7 @@ cond_quad = (np.linalg.cond(A_quad_train))**2
 
 cond_fact_lin = np.linalg.norm(A_lin_train.T) * np.linalg.norm(A_lin_train)
 cond_fact_quad = np.linalg.norm(A_quad_train.T) * np.linalg.norm(A_quad_train)
+print(cond_lin, cond_quad, cond_fact_lin, cond_fact_quad)
 # Liniowa
 p_lin = A_lin_validate @ w_lin
 p_lin = np.where(p_lin > 0, 1, -1)
@@ -72,8 +73,9 @@ df = pd.DataFrame({
     "Liczba fałszywie ujemnych": [false_negatives_lin, false_negatives_quad],
     "Liczba fałszywie dodatnich": [false_positives_lin, false_positives_quad],
     "Liczba przewidzianych nowotworów złośliwych": [lin_malignant, quad_malignant],
-    "Liczba przewidzianych nowotworów łagodnych": [lin_benign, quad_benign]
+    "Liczba przewidzianych nowotworów łagodnych": [lin_benign, quad_benign],
+    "Dokładność": [(lin_malignant-false_negatives_lin+lin_benign-false_positives_lin)/(lin_malignant+lin_benign), (quad_malignant-false_negatives_quad+quad_benign-false_positives_quad)/(quad_malignant+quad_benign)],
 })\
     .style.relabel_index(["Reprezentacja liniowa", "Reprezentacja najmnieszych kwadratów"], axis=0)
 
-# print(df.to_latex())
+print(df.to_latex())
