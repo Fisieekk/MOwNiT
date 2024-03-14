@@ -9,11 +9,14 @@ with open("data\\breast-cancer.labels") as f:
     for line in f.readlines():
         column_names.append(line.strip())
 
-breast_cancer_train = pd.io.parsers.read_csv("data\\breast-cancer-train.dat", header=None, names=column_names)
-breast_cancer_validate = pd.io.parsers.read_csv("data\\breast-cancer-validate.dat", header=None, names=column_names)
+breast_cancer_train = pd.io.parsers.read_csv(
+    "data\\breast-cancer-train.dat", header=None, names=column_names)
+breast_cancer_validate = pd.io.parsers.read_csv(
+    "data\\breast-cancer-validate.dat", header=None, names=column_names)
 
 # (b) Stwórz histogram i wykres wybranej kolumny danych
-plt.hist(breast_cancer_train["radius (mean)"],bins=20, color='blue', alpha=0.7)
+plt.hist(breast_cancer_train["radius (mean)"],
+         bins=20, color='blue', alpha=0.7)
 plt.ylabel("Frequency")
 plt.xlabel("Radius (mean)")
 plt.show()
@@ -30,16 +33,21 @@ plt.show()
 A_lin_train = breast_cancer_train.drop("Malignant/Benign", axis=1).values
 A_lin_train = np.column_stack((np.ones(A_lin_train.shape[0]), A_lin_train))
 # Kwadratowa
-A_quad_train = breast_cancer_train[["radius (mean)", "perimeter (mean)", "area (mean)", "symmetry (mean)"]].values
-A_quad_train = np.column_stack((np.ones(A_quad_train.shape[0]), A_quad_train, A_quad_train**2))
+A_quad_train = breast_cancer_train[[
+    "radius (mean)", "perimeter (mean)", "area (mean)", "symmetry (mean)"]].values
+A_quad_train = np.column_stack(
+    (np.ones(A_quad_train.shape[0]), A_quad_train, A_quad_train**2))
 
 # Validate
 # Liniowa
 A_lin_validate = breast_cancer_validate.drop("Malignant/Benign", axis=1).values
-A_lin_validate = np.column_stack((np.ones(A_lin_validate.shape[0]), A_lin_validate))
+A_lin_validate = np.column_stack(
+    (np.ones(A_lin_validate.shape[0]), A_lin_validate))
 # Kwadratowa
-A_quad_validate = breast_cancer_validate[["radius (mean)", "perimeter (mean)", "area (mean)", "symmetry (mean)"]].values
-A_quad_validate = np.column_stack((np.ones(A_quad_validate.shape[0]), A_quad_validate, A_quad_validate**2))
+A_quad_validate = breast_cancer_validate[[
+    "radius (mean)", "perimeter (mean)", "area (mean)", "symmetry (mean)"]].values
+A_quad_validate = np.column_stack(
+    (np.ones(A_quad_validate.shape[0]), A_quad_validate, A_quad_validate**2))
 
 # (d) Stwórz wektor b
 b_train = np.where(breast_cancer_train["Malignant/Benign"] == "M", 1, -1)
@@ -49,7 +57,8 @@ b_validate = np.where(breast_cancer_validate["Malignant/Benign"] == "M", 1, -1)
 # Liniowa
 w_lin = np.linalg.solve(A_lin_train.T @ A_lin_train, A_lin_train.T @ b_train)
 # Kwadratowa
-w_quad = np.linalg.solve(A_quad_train.T @ A_quad_train, A_quad_train.T @ b_train)
+w_quad = np.linalg.solve(A_quad_train.T @ A_quad_train,
+                         A_quad_train.T @ b_train)
 # # (f) Oblicz współczynniki uwarunkowania
 cond_lin = (np.linalg.cond(A_lin_train))**2
 cond_quad = (np.linalg.cond(A_quad_train))**2
