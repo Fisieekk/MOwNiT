@@ -267,8 +267,8 @@ Zestawienie wartości $h_{min}$ z minimum wartości błędu obliczeniowego ze wz
 
 |          method |               eperimental values |                  expected values |
 |----------------:|---------------------------------:|---------------------------------:|
-|  forward method | 2.55*10^-8 | 9.12*10^-10 |
-|  central method | 6.22*10-13 | 4.08*10^-6 |
+|  forward method | $2.55 \cdot 10^{-8}$ | $9.12 \cdot 10^{-10}$ |
+|  central method | $6.22 \cdot 10^{-13}$ | $4.08 \cdot 10^{-6}$ |
 
 ### 3.2 Zadanie 2
 
@@ -286,6 +286,15 @@ Wykres przedstawiający wartość bezwględną błędu względnego w zależnośc
 ![alt text](img\relative_error.png)
 
 ## 4. Wnioski
+
+W przypadku generowania poszczególnych wartości parametru $h$ zauważono, że notacja numpy postaci:
+
+```python
+h_values = 1/10**np.arange(0, 17)
+```
+
+nie zwracała poprawnych wyników w przypadku systemu operacyjnego windows. Dla potęg od -10 wzwyż wyniki były następujące:
+$7.09 \cdot 10^{-10}, 8.22 \cdot 10^{-10},-1.37 \cdot 10^{-9},  7.59 \cdot 10^{-10},  3.61 \cdot 10^{-9}, -6.53 \cdot 10^{-10}, 5.33 \cdot 10^{-10}$ dla odpowiednich $k \in [10, 16]$. Działo się tak z powodu braku specyfikacji typu *float* dla metody **arrange**.
 
 ### 4.1 Zadanie 1
 
