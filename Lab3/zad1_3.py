@@ -89,22 +89,62 @@ plt.show()
 
 
 
+# Wielomian interpolacyjny Lagrange'a dla Phi4
+
+def lagrange_interpolation(x, y, t):
+    n = len(x)
+    L = 0
+    for i in range(n):
+        l = 1
+        for j in range(n):
+            if j != i:
+                l *= (t - x[j]) / (x[i] - x[j])
+        L += y[i] * l
+    return L
+
+y_lagrange = lagrange_interpolation(years4, population, (t-1940)/40)
+
+
+# Wielomian interpolacyjny Newtona dla Phi4
+
+def newton_interpolation(x, y, t):
+    n = len(x)
+    a = y.copy()
+    for i in range(1, n):
+        a[i:] = (a[i:] - a[i-1:-1]) / (x[i:] - x[:-i])
+    N = a[-1]
+    for i in range(n-2, -1, -1):
+        N = a[i] + (t - x[i]) * N
+    return N
+
+y_newton = newton_interpolation(years4, population, (t-1940)/40)
 
 
 
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+plt.plot(years1, population, 'o', label='Dane')
+plt.plot(t, y_lagrange, label='Interpolacja Lagrange (Phi4)')
+plt.legend()
+plt.xlabel('Rok')
+plt.ylabel('Populacja')
+plt.title('Interpolacja Lagrange (Phi4)')
+plt.grid(True)
 
-# def lagrange(x, y, t):
-#     n = len(x)
-#     L = 0
-#     for i in range(n):
-#         Li = 1
-#         for j in range(n):
-#             if i != j:
-#                 Li *= (t - x[j]) / (x[i] - x[j])
-#         L += y[i] * Li
-#     return L
+# Wykres dla interpolacji Newtona dla Phi4
+plt.subplot(1, 2, 2)
+plt.plot(years1, population, 'o', label='Dane')
+plt.plot(t, y_newton, label='Interpolacja Newton (Phi4)')
+plt.legend()
+plt.xlabel('Rok')
+plt.ylabel('Populacja')
+plt.title('Interpolacja Newton (Phi4)')
+plt.grid(True)
 
-# y_lagrange = lagrange(years4, population, t)
+plt.tight_layout()
+plt.show()
+
+
 
 # def newton(x, y, t):
 #     n = len(x)
