@@ -29,7 +29,7 @@ def cubic_spline_interpolation(x, nodes, values):
 #Węzły Czebyszewa
 def chebyshev_nodes(a, b, n):
 
-    theta = np.pi * (2*np.arange(n) + 1) / (2*n)
+    theta = np.pi * (2*np.arange(n) + 1) / (2*n+2)
     x = np.cos(theta)
     x_transformed = a + (b - a) * (x + 1) / 2
     
