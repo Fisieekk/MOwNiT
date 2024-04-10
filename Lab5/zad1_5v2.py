@@ -12,15 +12,11 @@ def build_matrix(x, m):
     for i in range(n):
         for j in range(m+1):
             A[i][j] = x[i]**j
-    if m==6:
-        print(A)
     return A
 
 def approx(x, y, m):
     A = build_matrix(x, m)
     c= inv(A.T @ A) @ A.T @ y
-    if m==6:
-        print(c)
     return c
 
 def extrapolate(c,x):
@@ -35,10 +31,14 @@ def relative_error(y, y_hat):
 def optimize(x, y, m):
     p = approx(x, y, m)
     y_hat = extrapolate(p, 1990)
+    print(f'Wartość ekstrapolowana dla m={m}: {y_hat}')
     return relative_error(248709873, y_hat)
 
 m = np.arange(7)
 errors = np.array([optimize(years, population, i) for i in m])
+for i in range(len(errors)):
+    print(f'Błąd względny dla m={i}: {round(errors[i]*100,2)}%')
+print(errors)
 plt.plot(m, errors,'o', label='Błąd względny')
 plt.xlabel('Stopień')
 plt.ylabel('Błąd względny')
