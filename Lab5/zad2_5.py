@@ -7,38 +7,33 @@
 import numpy as np
 import matplotlib.pyplot as plt 
 from scipy.integrate import quad
-
+from numpy.polynomial.chebyshev import Chebyshev
+from scipy.special import chebyt
 # dane
 
 def f(x):
     return np.sqrt(x)
-def T(k,x):
-    x=x-1
-    return np.cos(k*np.arccos(x))
 def w(x):
     t=x-1
     return (1-t**2)**(-1/2)
+def T(k,x):
+    x=x-1
+    return np.cos(k*np.arccos(x))
 def phi(k):
     return np.pi if k==0 else np.pi/2
-def integrand(x,k):
-    return f(x)*T(k,x)*w(x)
 def c(k):
-    c, _ = quad(integrand, 0, 2, args=(k,))
-    print(c)
+    c, _ = quad(lambda x: T(k,x)*f(x)*w(x), 0, 2)
     c=c/phi(k)
     return c
 def p_gwiazdka(m):
     ck=[]
-    phik=[]
     for k in range(m+1):
         ck.append(c(k))
-        phik.append(lambda x: T(k,x))
-    p  = lambda x: np.sum([ck[i]*phik[i](x) for i in range(m+1)])
+    p  = Chebyshev(ck, domain=(0,2))
     return p
 
 def approx(m):
-    P = p_gwiazdka(m)
-    return P
+    return p_gwiazdka(m)
 
 # aproksymacja
 x = np.linspace(0, 2, 100)
