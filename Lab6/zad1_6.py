@@ -69,3 +69,51 @@ plt.yscale('log')
 plt.xscale('log',base=2)
 plt.legend()
 plt.show()
+
+
+# b
+
+def calculate_h_min(method):
+    h_min = 0
+    for i in range(1, m + 1):
+        ab = np.linspace(start=0, stop=1, num=2**i+1)
+        yab = f(ab)
+        x1=np.array([(ab[i]+ab[i-1])/2 for i in range(1, len(ab))])
+        y1=f(x1)
+        error = np.abs(np.pi - method(ab, yab))
+        if error < h_min:
+            h_min = error
+    return h_min
+
+mid_point_h_min = calculate_h_min(mid_point_rule)
+trapezoidal_h_min = calculate_h_min(trapezoidal_rule)
+simpson_h_min = calculate_h_min(simpson_rule)
+print("lab 1 ", 6.22e-12)
+print(f"Mid-point rule h_min: {mid_point_h_min}")
+print(f"Trapezoidal rule h_min: {trapezoidal_h_min}")
+print(f"Simpson rule h_min: {simpson_h_min}")
+
+
+def calculate_error(method,h):
+    ab = np.linspace(start=0, stop=1, num=h+1)
+    yab = f(ab)
+    x1=np.array([(ab[i]+ab[i-1])/2 for i in range(1, len(ab))])
+    y1=f(x1)
+    return np.abs(np.pi - method(x1, y1))/np.pi
+
+
+mid_point_errors = [calculate_error(mid_point_rule, h) for h in n]
+trapezoidal_errors = [calculate_error(trapezoidal_rule, h) for h in n]
+simpson_errors = [calculate_error(simpson_rule, h) for h in n]
+
+def calculate_convergence_order(errors, h):
+    return np.log(errors[1:]/errors[:-1]) / np.log(h[1:]/h[:-1])
+
+
+mid_point_order = calculate_convergence_order(mid_point_errors, n)
+trapezoidal_order = calculate_convergence_order(trapezoidal_errors, n)
+simpson_order = calculate_convergence_order(simpson_errors, n)
+
+print(f"Mid-point rule order: {mid_point_order}")
+print(f"Trapezoidal rule order: {trapezoidal_order}")
+print(f"Simpson rule order: {simpson_order}")
