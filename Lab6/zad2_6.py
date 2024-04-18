@@ -7,7 +7,7 @@ def f(x):
 
 def gauss_legendre_rule(a, b, n):
     x, w = gauss(n)
-    return np.sum(w * f((b - a) / 2 * x + (a + b) / 2))
+    return np.sum(w * f((b - a) / 2 * x + (a + b) / 2)/2)
 
 def calculate_integral(a, b, n, method):
     return method(a, b, n)
