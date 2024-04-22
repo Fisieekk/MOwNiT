@@ -45,6 +45,7 @@ def optimize(x, y, m):
 
 m = np.arange(7)
 errors = np.array([optimize(years, population, i) for i in m])
+print(errors)
 plt.plot(m, errors,'o', label='Błąd względny')
 plt.xlabel('Stopień')
 plt.ylabel('Błąd względny')
@@ -60,12 +61,6 @@ p = approx(years, population, best_m)
 y_hat = extrapolate(p, 1990)
 print(f'Wartość ekstrapolowana dla roku 1990: {y_hat}')
 
-# kryterium informacyjne Akaikego
-
-aic = np.array([AIC(population, extrapolate(approx(years, population, i), years), i) for i in m])
-best_aic = m[np.argmin(aic)]
-print(f'Najlepszy stopień wielomianu wg AIC: {best_aic}')
-print(f'Wartość kryterium informacyjnego Akaikego dla najlepszego stopnia wielomianu: {aic[best_aic]}')
 
 # kryterium informacyjne Akaikego z korektą
 
@@ -78,7 +73,8 @@ print(f'Wartość kryterium informacyjnego Akaikego z korektą dla najlepszego s
 # wykres
 
 plt.plot(years, population, 'o', label='Dane')
-plt.plot(years, extrapolate(p, years), label=f'Ekstrapolacja dla m={best_m}')
+for i in m:
+    plt.plot(years, extrapolate(approx(years, population, i), years), label=f'm={i}')
 plt.xlabel('Rok')
 plt.ylabel('Populacja')
 plt.legend()
